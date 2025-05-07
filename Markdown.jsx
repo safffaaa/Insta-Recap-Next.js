@@ -23,4 +23,9 @@ const Markdown = ({ content }) => {
   );
 };
 
-export default Markdown;
+const formatSummaryContent = (content) => {
+  if (!content) return '';
+  return <Markdown content={content} />;
+};
+
+export default formatSummaryContent;

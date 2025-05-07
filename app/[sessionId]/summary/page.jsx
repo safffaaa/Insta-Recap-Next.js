@@ -33,32 +33,6 @@ const Summary = () => {
   const params = useParams();
   const sessionId = params.sessionId;
 
-  useEffect(() => {
-    const fetchSessionDetails = async () => {
-      if (!sessionId) return;
-      dispatch(setLoading(true));
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/session?sessionId=${sessionId}`
-        );
-        const data = await response.json();
-        if (data.success) {
-          dispatch(setCurrentAudio(data.audio));
-          dispatch(setReduxCurrentSession(data.audio.session));
-        } else {
-          dispatch(setError("Session not found"));
-        }
-      } catch (error) {
-        console.error("Error fetching session details:", error);
-        dispatch(setError(error.message));
-      } finally {
-        dispatch(setLoading(false));
-      }
-    };
-
-    fetchSessionDetails();
-  }, [dispatch, sessionId]);
-
   if (!currentAudio) {
     return (
       <LoadingState
