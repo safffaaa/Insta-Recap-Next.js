@@ -111,7 +111,9 @@ const Card = ({ session }) => {
     if (!session?._id) return;
     dispatch(setCurrentSession(session));
     fetchSessionDetails();
-    router.push(`/${session._id}/overview`);
+    // router.push(`/${session._id}/overview`);
+    router.push("/overview");
+
   };
 
   const toggleBookmark = async (e) => {

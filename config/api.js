@@ -8,7 +8,7 @@ export const API_ENDPOINTS = {
   RESEND_OTP: `${BACKEND_URL}/api/v1/auth/login-mobile-with-country`,
   EVENT: `${BACKEND_URL}/api/v1/auth/domain-event`,
   RECAP_SETTINGS: `${BACKEND_URL}/api/v1/instarecap-setting`,
-  SESSION: `${BASE_URL}/session`,
+  SESSION: `${BACKEND_URL}/api/v1/session`,
   SESSIONS: `${BASE_URL}/sessions/event`,
   EVENT_DETAILS: `${BASE_URL}/event`,
 };
