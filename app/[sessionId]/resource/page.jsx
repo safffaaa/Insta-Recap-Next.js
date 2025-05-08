@@ -14,6 +14,7 @@ import {
   import { useParams } from 'next/navigation';
   import formatSummaryContent from "../../../Markdown";
   import Image from 'next/image';
+  import FunctionButton from '../../../components/fuctionButton';
   
   const ResourceList = () => {
     const params = useParams();
@@ -63,7 +64,7 @@ import {
   
         <div className="flex items-center justify-between gap-3 pb-6">
           <div className="flex items-center gap-2">
-            <img
+            <Image
               src={resgreen}
               alt="overviewList"
               className="w-5 h-5 sm:w-8 sm:h-8"
@@ -76,7 +77,7 @@ import {
             {/* Mentioned Link */}
             <Link href={`/${sessionId}/resource`}>
               <div className="flex items-center gap-2 border-0 bg-[#5BF5FF] text-[#222534] px-2 sm:px-4 py-1 sm:py-2 rounded-lg">
-                <img
+                <Image
                   src={mentionedblack}
                   alt="Mentioned"
                   className="w-4 h-4 sm:w-6 sm:h-6"
@@ -87,7 +88,7 @@ import {
             {/* Files Link */}
             <Link href={`/${sessionId}/resource/files`}>
               <div className="flex items-center gap-2 border-0  text-[#5BF5FF] px-2 sm:px-4 py-1 sm:py-2 rounded-lg">
-                <img
+                <Image
                   src={filesgreen}
                   alt="Files"
                   className="w-4 h-4 sm:w-6 sm:h-6"
@@ -105,7 +106,7 @@ import {
           >
             {/* Header */}
             <div className="flex items-center gap-2 text-cyan-400 py-4">
-              <img
+              <Image
                 src={rescontimg}
                 className="w-3 h-3 xs:w-5 xs:h-5 sm:w-6 sm:h-6"
                 alt={resourceCategory.category}
@@ -133,13 +134,37 @@ import {
                   </p>
   
                   {/* Action Buttons */}
-                  <div>
-                    <MenuButton
-                      img1={share}
-                      img1Text={"Share"}
-                      img2={copy}
-                      img2Text={"Copy"}
-                      copyText={item.title + ":\n" + item.description}
+                  <div className="mt-4 flex gap-4">
+                    <FunctionButton
+                      icon={share}
+                      iconClassName="w-[18px]"
+                      onClick={async () => {
+                        const text = item.title + ":\n" + item.description;
+                        if (navigator.share) {
+                          try {
+                            await navigator.share({
+                              title: "Resource",
+                              text,
+                            });
+                          } catch (err) {
+                            await navigator.clipboard.writeText(text);
+                          }
+                        } else {
+                          await navigator.clipboard.writeText(text);
+                        }
+                      }}
+                      className="border py-1 px-2 text-[#5BF5FF] text-[12px] border-[#5BF5FF] rounded-[6px]"
+                      buttonName="Share"
+                    />
+                    <FunctionButton
+                      icon={copy}
+                      iconClassName="w-[18px]"
+                      onClick={async () => {
+                        const text = item.title + ":\n" + item.description;
+                        await navigator.clipboard.writeText(text);
+                      }}
+                      className="border py-1 px-2 flex justify-center text-[12px] items-center text-[#5BF5FF] border-[#5BF5FF] rounded-[6px]"
+                      buttonName="Copy"
                     />
                   </div>
                 </div>

@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import formatSummaryContent from "../../../../Markdown";
+import FunctionButton from '../../../../components/fuctionButton';
 
 const Twitter = () => {
   const params = useParams();
@@ -112,13 +113,39 @@ const Twitter = () => {
               )}
             </div>
             <div className="pb-4">
-              <MenuButton
-                img1={share}
-                img1Text={"Share"}
-                img2={copy}
-                img2Text={"Copy"}
-                copyText={post.content}
-              />
+              <div className="mt-4 flex gap-4">
+                <FunctionButton
+                  icon={share}
+                  iconClassName="w-[18px]"
+                  onClick={async () => {
+                    const text = post.content;
+                    if (navigator.share) {
+                      try {
+                        await navigator.share({
+                          title: "Social Post",
+                          text,
+                        });
+                      } catch (err) {
+                        await navigator.clipboard.writeText(text);
+                      }
+                    } else {
+                      await navigator.clipboard.writeText(text);
+                    }
+                  }}
+                  className="border py-1 px-2 text-[#5BF5FF] text-[12px] border-[#5BF5FF] rounded-[6px]"
+                  buttonName="Share"
+                />
+                <FunctionButton
+                  icon={copy}
+                  iconClassName="w-[18px]"
+                  onClick={async () => {
+                    const text = post.content;
+                    await navigator.clipboard.writeText(text);
+                  }}
+                  className="border py-1 px-2 flex justify-center text-[12px] items-center text-[#5BF5FF] border-[#5BF5FF] rounded-[6px]"
+                  buttonName="Copy"
+                />
+              </div>
             </div>
           </div>
         </div>

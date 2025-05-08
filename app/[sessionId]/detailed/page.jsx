@@ -1,8 +1,7 @@
 'use client';
 
-import Menu from "../../../components/menu/Menu";
 import {
-  Bookunmark,
+    Bookunmark,
   NoTakeAway,
   Sparkle,
   takeAwaybluebookmarkfill,
@@ -16,6 +15,7 @@ import {
   DetailBlack,
   Cardblue,
 } from "../../../app/assets";
+import Menu from "../../../components/menu/Menu";
 import { useDispatch, useSelector } from "react-redux";
 import formatSummaryContent from "../../../Markdown";
 import {
@@ -31,6 +31,8 @@ import MenuButton from "../../../components/share-copy-download-button/MenuButto
 import LoadingState from "../../../components/LoadingState";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Image from "next/image";
+import FunctionButton from '../../../components/fuctionButton';
 
 const TakeAwayDetailed = () => {
   const dispatch = useDispatch();
@@ -99,7 +101,7 @@ const TakeAwayDetailed = () => {
       {/* Header Section */}
       <div className="flex items-center justify-between pb-6">
         <div className="flex items-center gap-1">
-          <img
+          <Image  
             src={takewaypin}
             alt="overviewList"
             className="w-5 h-5 sm:w-8 sm:h-8"
@@ -111,7 +113,7 @@ const TakeAwayDetailed = () => {
         <div className="flex justify-center py-1 px-1 items-center w-38 bg-[#282C3A] rounded-lg overflow-hidden">
           <Link href={`/${sessionId}/takeaway`} className="flex-1">
             <div className="flex items-center justify-center border-0 bg-[#222534] text-[#5BF5FF] px-2 sm:px-4 py-1 sm:py-2">
-              <img
+              <Image
                 src={Cardblue}
                 alt="Card"
                 className="w-[13.5px] h-[15px] mr-2"
@@ -121,7 +123,7 @@ const TakeAwayDetailed = () => {
           </Link>
           <Link href={`/${sessionId}/detailed`} className="flex-1">
             <div className="flex items-center justify-center border-0 text-[#222534] bg-[#5BF5FF] px-2 sm:px-4 py-1 sm:py-2 rounded-lg shadow-md">
-              <img
+              <Image
                 src={DetailBlack}
                 alt="Detail"
                 className="w-[13.5px] h-[15px] mr-2"
@@ -147,13 +149,39 @@ const TakeAwayDetailed = () => {
             )}
           </div>
 
-          <MenuButton
-            img1={share}
-            img1Text={"Share"}
-            img2={copy}
-            img2Text={"Copy"}
-            copyText={currentAudio.fullSummary}
-          />
+          <div className="mt-4 flex gap-4">
+            <FunctionButton
+              icon={share}
+              iconClassName="w-[18px]"
+              onClick={async () => {
+                const text = currentAudio.fullSummary;
+                if (navigator.share) {
+                  try {
+                    await navigator.share({
+                      title: "Session Detail",
+                      text,
+                    });
+                  } catch (err) {
+                    await navigator.clipboard.writeText(text);
+                  }
+                } else {
+                  await navigator.clipboard.writeText(text);
+                }
+              }}
+              className="border py-1 px-2 text-[#5BF5FF] text-[12px] border-[#5BF5FF] rounded-[6px]"
+              buttonName="Share"
+            />
+            <FunctionButton
+              icon={copy}
+              iconClassName="w-[18px]"
+              onClick={async () => {
+                const text = currentAudio.fullSummary;
+                await navigator.clipboard.writeText(text);
+              }}
+              className="border py-1 px-2 flex justify-center text-[12px] items-center text-[#5BF5FF] border-[#5BF5FF] rounded-[6px]"
+              buttonName="Copy"
+            />
+          </div>
         </div>
       </div>
     </div>

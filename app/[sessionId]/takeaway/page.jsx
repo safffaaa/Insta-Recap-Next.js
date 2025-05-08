@@ -1,6 +1,5 @@
 'use client';
 
-import Menu from "../../../components/menu/Menu";
 import {
   takeAwaybluebookmarkfill,
   takeawaydetail,
@@ -10,6 +9,7 @@ import {
   share,
   takeAwaybluebookmarkunfill,
 } from "../../assets";
+import Menu from "../../../components/menu/Menu";
 import { useDispatch, useSelector } from "react-redux";
 import formatSummaryContent from "../../../Markdown";
 import {
@@ -27,6 +27,7 @@ import { selectIsAuthenticated } from "../../../store/authSlice";
 import { useEvent } from "../../../hooks/useEvent";
 import FunctionButton from '../../../components/fuctionButton/index';
 import Link from 'next/link';
+import Image from "next/image";
 
 const OverviewTakeAway = () => {
   const dispatch = useDispatch();
@@ -139,7 +140,7 @@ const OverviewTakeAway = () => {
       {/* Header Section */}
       <div className="flex items-center py-1 px-1 justify-between pb-6">
         <div className="flex items-center gap-1">
-          <img
+          <Image
             src={takewaypin}
             alt="overviewList"
             className="w-5 h-5 sm:w-8 sm:h-8"
@@ -152,7 +153,7 @@ const OverviewTakeAway = () => {
           {/* Card Link */}
           <Link href={`/${sessionId}/takeaway`}>
             <div className="flex items-center justify-between border-0 bg-[#5BF5FF] text-[#222534] px-2 sm:px-4 py-1 sm:py-2 rounded-lg">
-              <img
+              <Image
                 src={takewaycard}
                 alt="Card"
                 className="w-[13.5px] h-[15px] mr-2"
@@ -163,7 +164,7 @@ const OverviewTakeAway = () => {
           {/* Detail Link */}
           <Link href={`/${sessionId}/detailed`}>
             <div className="flex items-center border-0 text-[#5BF5FF] px-2 sm:px-4 py-1 sm:py-2 rounded-lg">
-              <img
+              <Image
                 src={takeawaydetail}
                 alt="Detail"
                 className="w-[13.5px] h-[15px] mr-2"
