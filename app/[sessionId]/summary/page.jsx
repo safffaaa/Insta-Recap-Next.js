@@ -7,7 +7,7 @@ import {
   overviewList,
   share,
   summaryBlack,
-} from "../../../app/assets/index";
+} from "../../../app/assets";
 import MenuButton from "../../../components/share-copy-download-button/MenuButton";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -23,6 +23,8 @@ import {
 } from "../../../store/sessionsSlice";
 import { useEffect, useState } from "react";
 import LoadingState from "../../../components/LoadingState";
+import FunctionButton from '../../../components/fuctionButton';
+import Image from "next/image";
 
 const Summary = () => {
   const dispatch = useDispatch();
@@ -54,7 +56,7 @@ const Summary = () => {
         {/* Section 3: Overview */}
         <div className="flex items-center justify-between pb-6">
           <div className="flex items-center gap-1">
-            <img
+            <Image
               src={overviewList}
               alt="overviewList"
               className="w-5 h-5 sm:w-8 sm:h-8"
@@ -67,7 +69,7 @@ const Summary = () => {
             {/* Overview Link */}
             <Link href={`/${sessionId}/overview`}>
               <div className="flex items-center justify-between border-0 text-[#5BF5FF]  px-2 sm:px-4 py-1 sm:py-2 rounded-lg">
-                <img
+                <Image
                   src={overviewBlue}
                   alt="Overview"
                   className="w-[13.5px] h-[15px] mr-2"
@@ -78,7 +80,7 @@ const Summary = () => {
             {/* Summary Link */}
             <Link href={`/${sessionId}/summary`}>
               <div className="flex  items-center border-0 bg-[#5BF5FF] text-[#222534] px-2 sm:px-4 py-1 sm:py-2 rounded-lg">
-                <img
+                <Image  
                   src={summaryBlack}
                   alt="Summary"
                   className="w-[13.5px] h-[15px] mr-2"
@@ -108,13 +110,39 @@ const Summary = () => {
               {formatSummaryContent(currentAudio.summaries.detailedSummary)}
               </p>
             </div>
-            <MenuButton
-              img1={share}
-              img1Text={"Share"}
-              img2={copy}
-              img2Text={"Copy"}
-              copyText={currentAudio.summaries.detailedSummary}
-            />
+            <div className="mt-4 flex gap-4">
+              <FunctionButton
+                icon={share}
+                iconClassName="w-[18px]"
+                onClick={async () => {
+                  const text = currentAudio.summaries.detailedSummary;
+                  if (navigator.share) {
+                    try {
+                      await navigator.share({
+                        title: "Session Summary",
+                        text,
+                      });
+                    } catch (err) {
+                      await navigator.clipboard.writeText(text);
+                    }
+                  } else {
+                    await navigator.clipboard.writeText(text);
+                  }
+                }}
+                className="border py-1 px-2 text-[#5BF5FF] text-[12px] border-[#5BF5FF] rounded-[6px]"
+                buttonName="Share"
+              />
+              <FunctionButton
+                icon={copy}
+                iconClassName="w-[18px]"
+                onClick={async () => {
+                  const text = currentAudio.summaries.detailedSummary;
+                  await navigator.clipboard.writeText(text);
+                }}
+                className="border py-1 px-2 flex justify-center text-[12px] items-center text-[#5BF5FF] border-[#5BF5FF] rounded-[6px]"
+                buttonName="Copy"
+              />
+            </div>
           </div>
         </div>
       </div>

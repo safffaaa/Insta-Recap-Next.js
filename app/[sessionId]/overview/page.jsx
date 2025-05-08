@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import formatSummaryContent from "../../../Markdown";
 import {
   copy,
+  share,
   overviewBlack,
   overviewList,
-  share,
   summaryBlue,
-} from "../../assets/index";
+} from "../../assets";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -21,6 +21,8 @@ import {
   setCurrentSession,
 } from "../../../store/sessionsSlice";
 import Image from "next/image";
+import FunctionButton from '../../../components/fuctionButton';
+
 const Overview = () => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -127,15 +129,43 @@ const Overview = () => {
           <ul className="list-disc text-[14px] font-[400] leading-[18px] px-0 py-1">
             <p>{formatSummaryContent(currentAudio.summaries.highlights)}</p>
           </ul>
-          <MenuButton
-            img1={share}
-            img1Text={"Share"}
-            img2={copy}
-            img2Text={"Copy"}
-            copyText={currentAudio.keyTakeaways
-              .map((takeaway) => takeaway.explanation)
-              .join("\n\n")}
-          />
+          <div className="mt-4 flex gap-4">
+            <FunctionButton
+              icon={share}
+              iconClassName="w-[18px]"
+              onClick={async () => {
+                const text = currentAudio.keyTakeaways
+                  .map((takeaway) => takeaway.explanation)
+                  .join("\n\n");
+                if (navigator.share) {
+                  try {
+                    await navigator.share({
+                      title: "Session Highlights",
+                      text,
+                    });
+                  } catch (err) {
+                    await navigator.clipboard.writeText(text);
+                  }
+                } else {
+                  await navigator.clipboard.writeText(text);
+                }
+              }}
+              className="border py-1 px-2 text-[#5BF5FF] text-[12px] border-[#5BF5FF] rounded-[6px]"
+              buttonName="Share"
+            />
+            <FunctionButton
+              icon={copy}
+              iconClassName="w-[18px]"
+              onClick={async () => {
+                const text = currentAudio.keyTakeaways
+                  .map((takeaway) => takeaway.explanation)
+                  .join("\n\n");
+                await navigator.clipboard.writeText(text);
+              }}
+              className="border py-1 px-2 flex justify-center text-[12px] items-center text-[#5BF5FF] border-[#5BF5FF] rounded-[6px]"
+              buttonName="Copy"
+            />
+          </div>
         </div>
       </div>
     </div>

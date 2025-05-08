@@ -8,7 +8,10 @@ import {
   shareBlack,
   social,
   takeAwayIcon,
-} from "../../app/assets/index";
+  overviewBlack,
+  summaryBlue,
+  overviewList,
+} from "../../app/assets";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -16,6 +19,7 @@ import {
   selectCurrentAudio,
   selectCurrentSession,
 } from "../../store/sessionsSlice";
+import Image from "next/image";
 
 const Menu = () => {
   const router = useRouter();
@@ -126,7 +130,7 @@ const Menu = () => {
         <div className="flex items-center py-4 w-full text-[#0A0D14] border-b border-[#FBF9F9]">
           <Link href="/">
             <button className="w-[32px] h-[32px] ml-2 rounded-full bg-[#F6F8FA] flex justify-center items-center">
-              <img src={rightButton} alt="" />
+              <Image src={rightButton} alt="Back" width={16} height={16} />
             </button>
           </Link>
           <h1 className="px-3 font-inter font-medium text-[16px] sm:text-[16px] leading-6">
@@ -139,9 +143,11 @@ const Menu = () => {
             currentSession.speakers.map((speaker, index) => (
               <div key={index} className="flex items-center mb-4">
                 <div className="w-[48px] h-[48px] ml-2 rounded-full bg-[#F6F8FA] flex justify-center items-center">
-                  <img
+                  <Image
                     src={speaker.photo ? `${process.env.NEXT_PUBLIC_IMG_CDN}${speaker.photo}` : profile}
                     alt={speaker.name}
+                    width={48}
+                    height={48}
                     className="rounded-full w-full h-full object-cover"
                     onError={(e) => {
                       e.target.src = profile;
@@ -175,21 +181,21 @@ const Menu = () => {
         <div className="flex justify-between items-center pb-2">
           <div className="flex items-center">
             <div className="flex items-center border-black">
-              <img src={overviewCal} alt="" className="p-2" />
+              <Image src={overviewCal} alt="Calendar" width={24} height={24} className="p-2" />
               <p className="text-[12px] text-[#0A0D14] font-inter pr-2">
                 {formatDate(day?.createdAt)}
               </p>
             </div>
             <hr className="w-[1px] h-[20px] bg-black" />
             <div className="flex items-center">
-              <img src={clockBlack} alt="" className="p-2" />
+              <Image src={clockBlack} alt="Clock" width={24} height={24} className="p-2" />
               <p className="text-[10px] sm:text-[12px] font-inter text-[#0A0D14]">
                 {startTime && endTime ? `${formatTime(startTime)} - ${formatTime(endTime)}` : ''}
               </p>
             </div>
           </div>
           <div>
-            <img src={shareBlack} alt="" />
+            <Image src={shareBlack} alt="Share" width={24} height={24} />
           </div>
         </div>
       </div>
@@ -198,9 +204,11 @@ const Menu = () => {
         {navigationItems.map(({ path, icon, label, to }) => (
           <Link href={to} className="w-1/4" key={path}>
             <div className={`flex items-center flex-col justify-center py-4 relative ${getActiveStyles(path).background} rounded-t-lg transition-all duration-300`}>
-              <img
+              <Image
                 src={icon}
                 alt={label}
+                width={24}
+                height={24}
                 className="w-[24px] h-[24px] sm:w-[36px] sm:h-[36px] mb-2"
               />
               <p className={`${getActiveStyles(path).textColor} text-[12px] sm:text-[14px] relative ${getActiveStyles(path).indicator}`}>
