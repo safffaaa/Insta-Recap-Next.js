@@ -20,7 +20,7 @@ import {
   setCurrentAudio,
   setCurrentSession,
 } from "../../../store/sessionsSlice";
-
+import Image from "next/image";
 const Overview = () => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -83,7 +83,7 @@ const Overview = () => {
         <Menu  />
         <div className="flex items-center justify-between pb-6">
           <div className="flex items-center gap-1">
-            <img
+            <Image
               src={overviewList}
               alt="overviewList"
               className="w-5 h-5 sm:w-8 sm:h-8"
@@ -95,7 +95,7 @@ const Overview = () => {
           <div className="flex py-1  rounded-[8px] px-1  justify-center items-center w-44 bg-[#282C3A]">
             <Link href={`/${sessionId}/overview`}>
               <div className="flex p items-center justify-between border-0 bg-[#5BF5FF] text-[#222534] px-2  py-1 sm:py-2 rounded-lg">
-                <img
+                <Image
                   src={overviewBlack}
                   alt="Overview"
                   className="w-[13.5px] h-[15px] mr-2"
@@ -105,7 +105,7 @@ const Overview = () => {
             </Link>
             <Link href={`/${sessionId}/summary`}>
               <div className="flex items-center border-0 text-[#5BF5FF] px-2 sm:px-4 py-1 sm:py-2 rounded-lg">
-                <img
+                <Image
                   src={summaryBlue}
                   alt="Summary"
                   className="w-[13.5px] h-[15px] mr-2"
