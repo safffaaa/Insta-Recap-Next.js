@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import formatSummaryContent from "../../../Markdown";
 import {
@@ -28,6 +28,8 @@ const Overview = () => {
   const params = useParams();
   const sessionId = params.sessionId;
   const currentAudio = useSelector(selectCurrentAudio);
+  const [copyMessage, setCopyMessage] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     // Mock data for demonstration
@@ -80,7 +82,7 @@ const Overview = () => {
   }
 
   return (
-    <div className="bg-[#10131A] text-white p-4 sm:p-6 lg:p-8">
+    <div className="bg-[#10131A] text-white p-4 sm:p-6 lg:p-8 min-h-screen">
       <div className="">
         <Menu  />
         <div className="flex items-center justify-between pb-6">
@@ -126,8 +128,12 @@ const Overview = () => {
           <h3 className="text-[14px] sm:text-[16px] font-medium">
             Session Highlights
           </h3>
-          <ul className="list-disc text-[14px] font-[400] leading-[18px] px-0 py-1">
-            <p>{formatSummaryContent(currentAudio.summaries.highlights)}</p>
+          <ul className="list-disc text-[14px] font-[400] leading-[24px] px-4 py-1 space-y-2">
+            {currentAudio.summaries.highlights.split('\n').map((point, index) => (
+              <li key={index} className="text-[#CDD0D5]">
+                {point.replace('•', '').trim()}
+              </li>
+            ))}
           </ul>
           <div className="mt-4 flex gap-4">
             <FunctionButton
@@ -154,16 +160,18 @@ const Overview = () => {
               buttonName="Share"
             />
             <FunctionButton
-              icon={copy}
+              icon={isCopied ? null : copy}
               iconClassName="w-[18px]"
               onClick={async () => {
                 const text = currentAudio.keyTakeaways
                   .map((takeaway) => takeaway.explanation)
                   .join("\n\n");
                 await navigator.clipboard.writeText(text);
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 2000);
               }}
               className="border py-1 px-2 flex justify-center text-[12px] items-center text-[#5BF5FF] border-[#5BF5FF] rounded-[6px]"
-              buttonName="Copy"
+              buttonName={isCopied ? "Copied!" : "Copy"}
             />
           </div>
         </div>

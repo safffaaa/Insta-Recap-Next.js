@@ -48,7 +48,7 @@ const Summary = () => {
     setFocus(true);
   };
   return (
-    <div className="bg-[#10131A] text-white p-4 sm:p-6 lg:p-8">
+    <div className="bg-[#10131A] text-white p-4 sm:p-6 lg:p-8 min-h-screen">
       <div className="">
         {/* Header Card */}
         <Menu focus={focus} />
